@@ -1,0 +1,14 @@
+{
+    "require": {
+        "pimple/pimple": "1.0.*",
+        "slim/slim": "2.2.*",
+        "vrana/notorm": "dev-master#bd5db460207245ccb0cdea86feb8dd9ed25afbe4"
+    },
+
+    "autoload": {
+        "classmap": [
+            "vendor/vrana/notorm/",
+            "include/"
+        ]
+    }
+}

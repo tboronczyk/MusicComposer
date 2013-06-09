@@ -1,0 +1,32 @@
+@import url(/css/reset.css);
+
+body {
+  color: #333;
+  font-family: Arial, Sans, sans-serif;
+  padding: 1em;
+}
+
+h1 {
+  font-size: 150%;
+  margin-bottom: 0.75em;
+}
+
+label, input, select {
+  margin: 0.3125em 0;
+}
+
+form {
+  margin-bottom: 1em;
+}
+
+#midi {
+  background: url('/img/download.png') top left no-repeat;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+  
+#msg {
+  background-color: #EFEFEF;
+  border: 1px solid #333;
+  padding: 5px;
+}
