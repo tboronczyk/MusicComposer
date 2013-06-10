@@ -21,10 +21,11 @@ form {
 
 #midi {
   background: url('/img/download.png') top left no-repeat;
+  display: block;
   margin-bottom: 20px;
   padding-left: 20px;
 }
-  
+
 #msg {
   background-color: #EFEFEF;
   border: 1px solid #333;

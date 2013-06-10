@@ -23,20 +23,12 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    var midi = document.getElementById("midi");
-
-    midi.clear = function () {
-        this.innerHTML = '';
-    }
-
-    midi.link = function(data) {
-        this.innerHTML = '<a href="/melody/midi/' +
-            encodeURIComponent(data.join('.')) + '">midi</a>';
-    }
-
     var paramForm = $("#paramForm");
 
     paramForm.submit(function () {
+        var result = $("#result"),
+            midi = $("#midi");
+
         $.ajax({
                 type: paramForm.attr("method"),
                 url: paramForm.attr("action"),
@@ -45,8 +37,8 @@ jQuery(document).ready(function ($) {
             })
             .fail(function (jqXHR, resp, err) {
                 msg(jqXHR.status + " " + err, jqXHR.responseText);
+                result.hide();
                 staff.clear(0, 0);
-                midi.clear();
             })
             .done(function (resp) {
                 var i = 0,
@@ -55,8 +47,6 @@ jQuery(document).ready(function ($) {
                     pos = 55,
                     height = 90;
 
-                msg("Data", resp.melody.join(' '));
-
                 staff.clear(pos + offset * len, height);
                 staff.drawNote('clef', 0, 0);
                 for (; i < len; i++) {
@@ -64,7 +54,11 @@ jQuery(document).ready(function ($) {
                     pos += offset;
                 }
 
-                midi.link(resp.melody);
+                midi.attr('href', '/melody/midi/' +
+                    encodeURIComponent(resp.melody.join('.')));
+                result.show();
+
+                msg("Data", resp.melody.join(' '));
             });
         return false;
     });
