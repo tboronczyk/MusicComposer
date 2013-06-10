@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
     }
 
     midi.link = function(data) {
-        this.innerHTML = '<a href="/midi?data=' +
+        this.innerHTML = '<a href="/melody/midi/' +
             encodeURIComponent(data.join('.')) + '">midi</a>';
     }
 

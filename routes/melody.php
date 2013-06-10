@@ -53,13 +53,11 @@ $app->post(
 );
 
 $app->get(
-    '/midi',
-    function () use ($container) {
+    '/melody/midi/:data',
+    function ($data) use ($container) {
         $app  = $container['app'];
-        $req  = $app->request();
         $resp = $app->response();
 
-        $data = $req->get('data');
         $data = explode('.', $data);
 
         $midi = new Midi();
