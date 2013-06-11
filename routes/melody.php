@@ -21,28 +21,7 @@ $app->post(
         $start = $req->post('start');
         $count = $req->post('count');
 
-        $mComposer = new Melody();
-
-        if ($row = $db->training_data('id', 1)->select('data')->fetch()) {
-            $row = iterator_to_array($row);
-            $json = $row['data'];
-        }
-        if (isset($json)) {
-            $mComposer->fromJSON($json);
-        }
-        else {
-            foreach (glob('../data/*.txt') as $f) {
-                $data = trim(file_get_contents($f));
-                $data = explode(' ', $data);
-                $mComposer->train($data);
-            }
-
-            $json = $mComposer->toJSON();
-            $db->training_data('id', 1)->insert(
-                array('id' => 1, 'data' => $json)
-            );
-        }
-
+        $mComposer = $container['melody'];
         $melody = $mComposer->compose($start, $count);
 
         $resp['Content-Type'] = 'application/json';
@@ -69,3 +48,22 @@ $app->get(
     }
 );
 
+$app->post(
+    '/melody/vote/:data',
+    function ($data) use ($container) {
+        $db = $container['db'];
+        $app  = $container['app'];
+        $req  = $app->request();
+        $resp = $app->response();
+
+        $vote = $req->post('vote');
+        $data = explode('.', $data);
+
+        $mComposer = $container['melody'];
+        if ($vote == 'Y') {
+            $mComposer->train($data);
+            $json = $mComposer->toJSON();
+            $db->training_data('id', 1)->update(array('data' => $json));
+        }
+    }
+);

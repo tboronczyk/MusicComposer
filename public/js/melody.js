@@ -27,7 +27,8 @@ jQuery(document).ready(function ($) {
 
     paramForm.submit(function () {
         var result = $("#result"),
-            midi = $("#midi");
+            midi = $("#midi"),
+            vote = $("#vote");
 
         $.ajax({
                 type: paramForm.attr("method"),
@@ -45,7 +46,8 @@ jQuery(document).ready(function ($) {
                     len = resp.melody.length,
                     offset = 34,
                     pos = 55,
-                    height = 90;
+                    height = 90,
+                    encoded = encodeURIComponent(resp.melody.join('.'));
 
                 staff.clear(pos + offset * len, height);
                 staff.drawNote('clef', 0, 0);
@@ -54,12 +56,30 @@ jQuery(document).ready(function ($) {
                     pos += offset;
                 }
 
-                midi.attr('href', '/melody/midi/' +
-                    encodeURIComponent(resp.melody.join('.')));
+                midi.attr('href', '/melody/midi/' + encoded);
+                vote.attr('data-melody', encoded).show();
                 result.show();
 
                 msg("Data", resp.melody.join(' '));
             });
         return false;
+    });
+
+    $("#voteYes").click(function () {
+        $("#vote").hide();
+        $.ajax({
+            type: "post",
+            url: "/melody/vote/" + $('#vote').attr("data-melody"),
+            data: {vote: "Y"}
+        });
+    });
+
+    $("#voteNo").click(function () {
+        $("#vote").hide();
+        $.ajax({
+            type: "post",
+            url: "/melody/vote/" + $('#vote').attr("data-melody"),
+            data: {vote: "N"}
+        });
     });
 });

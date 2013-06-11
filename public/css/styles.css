@@ -6,6 +6,12 @@ body {
   padding: 1em;
 }
 
+a, .link {
+  color: #00F;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 h1 {
   font-size: 150%;
   margin-bottom: 0.75em;
@@ -22,8 +28,22 @@ form {
 #midi {
   background: url('/img/download.png') top left no-repeat;
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-left: 20px;
+}
+
+#vote {
+  margin-bottom: 20px;
+}
+
+#voteYes {
+  background: url('/img/thumbs_up.png') center left no-repeat;
+  padding: 2px 10px 2px 20px;
+}
+
+#voteNo {
+  background: url('/img/thumbs_down.png') center left no-repeat;
+  padding: 2px 10px 2px 20px;
 }
 
 #msg {
