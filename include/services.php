@@ -2,6 +2,7 @@
 use Slim\Slim;
 use Zaemis\Template;
 use Zaemis\Composer\Melody;
+use Zaemis\Composer\Midi;
 
 $c = new Pimple();
 
@@ -44,6 +45,10 @@ $c['melody'] = function ($c) {
         );
     }
     return $mComposer;
+};
+
+$c['midi'] = function ($c) {
+    return new Midi();
 };
 
 $c['template'] = function ($c) {

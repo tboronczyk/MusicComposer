@@ -1,7 +1,4 @@
 <?php
-use Zaemis\Composer\Melody;
-use Zaemis\Composer\Midi;
-
 $app->get(
     '/melody',
     function () use ($c) {
@@ -34,13 +31,12 @@ $app->get(
     function ($data) use ($c) {
         $data = explode('.', $data);
 
-        $midi = new Midi();
-        $midFile = $midi->generate($data);
+        $midi = $c['midi']->generate($data);
 
         $resp = $c['app']->response();
         $resp['Content-Type'] = 'application/x-midi';
         $resp['Content-Disposition'] = 'attachment; filename="melody.mid"';
-        $resp->body($midFile);
+        $resp->body($midi);
     }
 );
 
