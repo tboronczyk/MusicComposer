@@ -1,56 +1,12 @@
 <?php
 require_once '../vendor/autoload.php';
-use Slim\Slim;
-use Zaemis\Template;
-use Zaemis\Composer\Melody;
+$container = require '../include/services.php';
 
-$config = require '../config/config.php';
+$config = $container['config'];
 error_reporting($config['env.error_reporting']);
 ini_set("display_errors", $config['env.display_errors']);
 
-$container = new Pimple();
-
-$container['config'] = $config;
-$container['db.pdo'] = function ($c) {
-    $cfg = $c['config'];
-    $pdo = new PDO($cfg['db.driver'] . ':' . $cfg['db.filename']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;
-};
-$container['db'] = function ($c) {
-    return new NotORM($c['db.pdo']);
-};
-$container['melody'] = function ($c) {
-    $db = $c['db'];
-    $mComposer = new Melody();
-    if ($row = $db->training_data('id', 1)->select('data')->fetch()) {
-        $row = iterator_to_array($row);
-        $json = $row['data'];
-    }
-    if (isset($json)) {
-        $mComposer->fromJSON($json);
-    }
-    else {
-        foreach (glob(dirname(__FILE__) . '/../data/*.txt') as $f) {
-            $data = trim(file_get_contents($f));
-            $data = explode(' ', $data);
-            $mComposer->train($data);
-        }
-
-        $json = $mComposer->toJSON();
-        $db->training_data('id', 1)->insert(
-            array('id' => 1, 'data' => $json)
-        );
-    }
-    return $mComposer;
-};
-
-
-$app = new Slim();
-$container['app'] = $app;
-
-$template = new Template(dirname(__FILE__) . '/../templates/');
-$container['template'] = $template;
+$app = $container['app'];
 
 $app->get(
     '/',
