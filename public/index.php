@@ -12,8 +12,7 @@ $app = $c['app'];
 $app->get(
     '/',
     function () use ($c) {
-        $app = $c['app'];
-        $app->redirect('/melody');
+        $c['app']->redirect('/melody');
     }
 );
 
