@@ -1,6 +1,5 @@
 <?php
 use Slim\Slim;
-use Zaemis\Template;
 use Zaemis\Composer\Melody;
 use Zaemis\Composer\Midi;
 
@@ -32,10 +31,6 @@ $c['melody'] = function ($c) {
 
 $c['midi'] = function ($c) {
     return new Midi();
-};
-
-$c['template'] = function ($c) {
-    return new Template($c['config']['path.templates']);
 };
 
 return $c;

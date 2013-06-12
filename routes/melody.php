@@ -2,7 +2,7 @@
 $app->get(
     '/melody',
     function () use ($c) {
-        $c['template']->fetch('melody.html');
+        require $c['config']['path.templates'] . 'melody.html';
     }
 );
 
