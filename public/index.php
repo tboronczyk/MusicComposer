@@ -1,5 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
+
 $c = require '../include/services.php';
 
 $config = $c['config'];
@@ -16,7 +17,7 @@ $app->get(
     }
 );
 
-foreach (glob($c['config']['path.routes'] . '*php') as  $file) {
+foreach (glob($config['path.routes'] . '*php') as  $file) {
     require_once $file;
 }
 
