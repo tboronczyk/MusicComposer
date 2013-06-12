@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f0d3e098d69c18b4deeeee6d830f298d",
+    "hash": "269b3d27aed26731bbeee9395264585b",
     "packages": [
         {
             "name": "pimple/pimple",
@@ -93,45 +93,6 @@
                 "router"
             ],
             "time": "2012-12-13 02:15:50"
-        },
-        {
-            "name": "vrana/notorm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vrana/notorm.git",
-                "reference": "bd5db460207245ccb0cdea86feb8dd9ed25afbe4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vrana/notorm/zipball/1ada05874f99d491568ab252b9364c6fbbc9f13d",
-                "reference": "bd5db460207245ccb0cdea86feb8dd9ed25afbe4",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "NotORM.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0",
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Vrána",
-                    "homepage": "http://www.vrana.cz/"
-                }
-            ],
-            "description": "NotORM is a PHP library for simple working with data in the database.",
-            "homepage": "http://www.notorm.com/",
-            "keywords": [
-                "database",
-                "dbal"
-            ],
-            "time": "2013-01-10 02:18:50"
         }
     ],
     "packages-dev": [
@@ -141,9 +102,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "vrana/notorm": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],

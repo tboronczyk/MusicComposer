@@ -49,9 +49,7 @@ $app->post(
         $mComposer = $c['melody'];
         if ($vote == 'Y') {
             $mComposer->train($data);
-            $json = $mComposer->toJSON();
-            $db = $c['db'];
-            $db->training_data('id', 1)->update(array('data' => $json));
+            file_put_contents($c['config']['path.datafile'], $mComposer->toJSON());
         }
     }
 );
