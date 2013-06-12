@@ -4,6 +4,13 @@ namespace Zaemis\Composer;
 class Midi
 {
     protected $noteValues = array(
+        'C3' => 0x32, 'C#3' => 0x33,
+        'D3' => 0x34, 'D#3' => 0x35,
+        'E3' => 0x36,
+        'F3' => 0x37, 'F#3' => 0x38,
+        'G3' => 0x39, 'G#3' => 0x39,
+        'A3' => 0x3A, 'A#3' => 0x3B,
+        'B3' => 0x3C,
         'C4' => 0x3D, 'C#4' => 0x3E,
         'D4' => 0x3F, 'D#4' => 0x40,
         'E4' => 0x41,
