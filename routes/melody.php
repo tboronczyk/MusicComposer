@@ -4,24 +4,24 @@ use Zaemis\Composer\Midi;
 
 $app->get(
     '/melody',
-    function () use ($container) {
-        $template = $container['template'];
+    function () use ($c) {
+        $template = $c['template'];
         $template->fetch('melody.html');
     }
 );
 
 $app->post(
     '/melody',
-    function () use ($container) {
-        $db = $container['db'];
-        $app  = $container['app'];
+    function () use ($c) {
+        $db = $c['db'];
+        $app  = $c['app'];
         $req  = $app->request();
         $resp = $app->response();
 
         $start = $req->post('start');
         $count = $req->post('count');
 
-        $mComposer = $container['melody'];
+        $mComposer = $c['melody'];
         $melody = $mComposer->compose($start, $count);
 
         $resp['Content-Type'] = 'application/json';
@@ -33,8 +33,8 @@ $app->post(
 
 $app->get(
     '/melody/midi/:data',
-    function ($data) use ($container) {
-        $app  = $container['app'];
+    function ($data) use ($c) {
+        $app  = $c['app'];
         $resp = $app->response();
 
         $data = explode('.', $data);
@@ -50,16 +50,16 @@ $app->get(
 
 $app->post(
     '/melody/vote/:data',
-    function ($data) use ($container) {
-        $db = $container['db'];
-        $app  = $container['app'];
+    function ($data) use ($c) {
+        $db = $c['db'];
+        $app  = $c['app'];
         $req  = $app->request();
         $resp = $app->response();
 
         $vote = $req->post('vote');
         $data = explode('.', $data);
 
-        $mComposer = $container['melody'];
+        $mComposer = $c['melody'];
         if ($vote == 'Y') {
             $mComposer->train($data);
             $json = $mComposer->toJSON();

@@ -3,25 +3,25 @@ use Slim\Slim;
 use Zaemis\Template;
 use Zaemis\Composer\Melody;
 
-$container = new Pimple();
+$c = new Pimple();
 
-$container['config'] = require dirname(__FILE__) . '/../config/config.php';
+$c['config'] = require dirname(__FILE__) . '/../config/config.php';
 
-$container['app'] = $container->share(function ($c) {
+$c['app'] = $c->share(function ($c) {
     return new Slim();
 });
 
-$container['db.pdo'] = function ($c) {
+$c['db.pdo'] = function ($c) {
     $cfg = $c['config'];
     $pdo = new PDO($cfg['db.driver'] . ':' . $cfg['db.filename']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;
 };
-$container['db'] = function ($c) {
+$c['db'] = function ($c) {
     return new NotORM($c['db.pdo']);
 };
 
-$container['melody'] = function ($c) {
+$c['melody'] = function ($c) {
     $db = $c['db'];
     $mComposer = new Melody();
     if ($row = $db->training_data('id', 1)->select('data')->fetch()) {
@@ -46,8 +46,8 @@ $container['melody'] = function ($c) {
     return $mComposer;
 };
 
-$container['template'] = function ($c) {
+$c['template'] = function ($c) {
     return new Template($c['config']['path.templates']);
 };
 
-return $container;
+return $c;
