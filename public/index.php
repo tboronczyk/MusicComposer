@@ -16,7 +16,7 @@ $app->get(
     }
 );
 
-foreach (glob('../routes/*php') as  $file) {
+foreach (glob($container['config']['path.routes'] . '*php') as  $file) {
     require_once $file;
 }
 

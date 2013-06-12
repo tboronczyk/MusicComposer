@@ -32,7 +32,7 @@ $container['melody'] = function ($c) {
         $mComposer->fromJSON($json);
     }
     else {
-        foreach (glob(dirname(__FILE__) . '/../data/*.txt') as $f) {
+        foreach (glob($c['config']['path.training'] . '*.txt') as $f) {
             $data = trim(file_get_contents($f));
             $data = explode(' ', $data);
             $mComposer->train($data);
@@ -47,7 +47,7 @@ $container['melody'] = function ($c) {
 };
 
 $container['template'] = function ($c) {
-    return new Template(dirname(__FILE__) . '/../templates/');
+    return new Template($c['config']['path.templates']);
 };
 
 return $container;
