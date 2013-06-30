@@ -8,6 +8,18 @@ jQuery(document).ready(function ($) {
         );
     }
 
+    function castVote() {
+        var choice = ($(this).attr('id') == "voteYes") ? "Y" : "N";
+        var melody = $("#vote").attr("data-melody");
+
+        $("#vote").hide();
+        $.ajax({
+            type: "post",
+            url: "/melody/vote/" + melody,
+            data: {vote: choice}
+        });
+    }
+
     staff.clear = function (w, h) {
         staff.width = w;
         staff.height = h;
@@ -62,21 +74,6 @@ jQuery(document).ready(function ($) {
         return false;
     });
 
-    $("#voteYes").click(function () {
-        $("#vote").hide();
-        $.ajax({
-            type: "post",
-            url: "/melody/vote/" + $("#vote").attr("data-melody"),
-            data: {vote: "Y"}
-        });
-    });
-
-    $("#voteNo").click(function () {
-        $("#vote").hide();
-        $.ajax({
-            type: "post",
-            url: "/melody/vote/" + $("#vote").attr("data-melody"),
-            data: {vote: "N"}
-        });
-    });
+    $("#voteYes").click(castVote);
+    $("#voteNo").click(castVote);
 });
