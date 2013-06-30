@@ -54,8 +54,8 @@ class Melody
     }
 
     public function train($noteData) {
-        $numNotes = count($noteData);
-        for ($i = 0; $i < $numNotes - 1; $i++) {
+        $lastKey = count($noteData) - 1;
+        for ($i = 0; $i < $lastKey; $i++) {
             $current = $noteData[$i];
             $next = $noteData[$i + 1];
             $this->pitchProb[$current]['pitches'][$next]++;
