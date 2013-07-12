@@ -7,16 +7,16 @@ class Melody
 
     public function __construct() {
         $this->pitchProb = array_fill_keys(
-            array(
+            [
                 'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3',
                 'A#3', 'B3',
                 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4',
                 'A#4', 'B4',
                 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5',
                 'A#5', 'B5'
-            ),
-            array(
-                'pitches' => array(
+            ],
+            [
+                'pitches' => [
                     'C3' => 0, 'C#3' => 0, 'D3' => 0, 'D#3' => 0, 'E3' => 0,
                     'F3' => 0, 'F#3' => 0, 'G3' => 0, 'G#3' => 0, 'A3' => 0,
                     'A#3' => 0, 'B3' => 0,
@@ -26,9 +26,9 @@ class Melody
                     'C5' => 0, 'C#5' => 0, 'D5' => 0, 'D#5' => 0, 'E5' => 0,
                     'F5' => 0, 'F#5' => 0, 'G5' => 0, 'G#5' => 0, 'A5' => 0,
                     'A#5' => 0, 'B5' => 0
-                ),
+                ],
                 'sum' => 0
-            )
+            ]
         );
     }
 
@@ -64,7 +64,7 @@ class Melody
     }
 
     public function compose($note, $numNotes) {
-        $melody = array($note);
+        $melody = [$note];
         while (--$numNotes) {
             $note = $this->weightedSelect($note);
             $melody[] = $note;

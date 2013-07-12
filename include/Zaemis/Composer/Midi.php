@@ -3,7 +3,7 @@ namespace Zaemis\Composer;
 
 class Midi
 {
-    protected $noteValues = array(
+    protected $noteValues = [
         'C3' => 0x32, 'C#3' => 0x33,
         'D3' => 0x34, 'D#3' => 0x35,
         'E3' => 0x36,
@@ -25,7 +25,7 @@ class Midi
         'G5' => 0x50, 'G#5' => 0x51,
         'A5' => 0x52, 'A#5' => 0x53,
         'B5' => 0x53
-    );
+    ];
 
     public function __construct() {
     }

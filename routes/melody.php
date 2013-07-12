@@ -21,7 +21,7 @@ $app->post(
         $resp = $app->response();
         $resp['Content-Type'] = 'application/json';
         $resp->body(
-            json_encode(array('melody' => $melody))
+            json_encode(['melody' => $melody])
         );
     }
 );

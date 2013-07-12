@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": ">=5.4",
         "pimple/pimple": "1.0.*",
         "slim/slim": "2.2.*"
     },
