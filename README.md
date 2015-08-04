@@ -8,3 +8,4 @@ http://zaemis.blogspot.com/2013/05/composing-music-with-php.html
 
     git clone https://github.com/tboronczyk/MusicComposer
     composer.phar install
+    chmod +w data
