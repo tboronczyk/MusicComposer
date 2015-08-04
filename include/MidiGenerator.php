@@ -1,7 +1,7 @@
 <?php
-namespace Zaemis\Composer;
+namespace Boronczyk\MusicComposer;
 
-class Midi
+class MidiGenerator
 {
     protected $noteValues = [
         'C3' => 0x32, 'C#3' => 0x33,
@@ -27,24 +27,44 @@ class Midi
         'B5' => 0x53
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
-    public function generate($noteData) {
+    public function generate($noteData)
+    {
         // MIDI type 1, 1 track, Time division 2032
         $header = 'MThd' . pack('Nn*', 6, 1, 1, 2032);
 
-        $data = pack('C*',
-            0x00, 0xB0, 0x00, 0x00, // T:0, Controller Chan 0 Bank 0
-            0x00, 0xC0, 0x00, 0x00, // T:0, Program Change Chan 0 Piano
-            0x00, 0xB0, 0x5B, 0x00  // T:0, Controller Chan 0 Effects Depth 0
+        $data = pack(
+            'C*',
+            0x00,
+            0xB0,
+            0x00,
+            0x00, // T:0, Controller Chan 0 Bank 0
+            0x00,
+            0xC0,
+            0x00,
+            0x00, // T:0, Program Change Chan 0 Piano
+            0x00,
+            0xB0,
+            0x5B,
+            0x00  // T:0, Controller Chan 0 Effects Depth 0
         );
         foreach ($noteData as $note) {
-            $data .= pack('C*',
+            $data .= pack(
+                'C*',
                 // T:0, Note On, Note X, velocity 62
-                0x00, 0x90, $this->noteValues[$note], 0x3E,
+                0x00,
+                0x90,
+                $this->noteValues[$note],
+                0x3E,
                 // T:254 (127|0x80 + 127), Note Off, Note X, velocity 62
-                0x8F, 0x7F, 0x80, $this->noteValues[$note], 0x3E
+                0x8F,
+                0x7F,
+                0x80,
+                $this->noteValues[$note],
+                0x3E
             );
         }
         // T:0 End track

@@ -1,13 +1,17 @@
 {
+    "name": "tboronczyk/musiccomposer",
+    "description": "Dabblings in statistics-driven music composition and machine learning",
     "require": {
-        "php": ">=5.4",
-        "pimple/pimple": "1.0.*",
-        "slim/slim": "2.2.*"
+        "php": ">=5.4.0",
+        "slim/slim": "2.*",
+        "slim/views": "0.*",
+        "twig/twig": "1.*"
     },
-
     "autoload": {
-        "classmap": [
-            "include/"
-        ]
+        "psr-4": {
+            "Boronczyk\\MusicComposer\\": [
+                "include/"
+            ]
+        }
     }
 }

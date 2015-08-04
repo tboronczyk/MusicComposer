@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Music Composer</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="/js/script.js"></script>
+ </head>
+ <body>
+  <header role="banner">
+   <h1>Music Composer</h1>
+  </header>
+  <div role="main">
+
+   <form id="myform" method="post" action="/">
+    <div class="row">
+     <label for="start">Starting Note</label>
+     <select name="start" id="start">
+      <option value="C4">C</option>
+      <option value="D4">D</option>
+      <option value="E4">E</option>
+      <option value="F4">F</option>
+      <option value="G4">G</option>
+      <option value="A4">A</option>
+      <option value="B4">B</option>
+      <option value="C5">C&prime;</option>
+     </select>
+    </div>
+    <div class="row">
+     <label for="count">Number of Notes</label>
+     <input type="text" name="count" id="count" maxlength="3" size="2" value="10">
+     <label for="count"><span>(1&ndash;100)</span></label>
+    </div>
+    <div class="row">
+     <input type="submit" value="Let&rsquo;s Make Music!">
+    </div>
+   </form>
+
+   <div id="result" class="hidden">
+    <div class="row">
+    <canvas id="staff" width="0" height="0"></canvas>
+    </div>
+    <div class="row">
+      <a href="#" id="midi">Download</a>
+    </div>
+    <div class="row" id="vote">Was this melody good?
+     <a href="#" id="voteY" class="voteLink">Yes</a>
+     <a href="#" id="voteN" class="voteLink">No</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
