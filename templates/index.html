@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Composer</title>
-  <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/css/styles.css">
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="/js/script.js"></script>
  </head>
  <body>
-  <header role="banner">
+  <header>
    <h1>Music Composer</h1>
   </header>
-  <div role="main">
-
+  <main>
    <form id="myform" method="post" action="/">
-    <div class="row">
+    <fieldset>
      <label for="start">Starting Note</label>
      <select name="start" id="start">
       <option value="C4">C</option>
@@ -28,29 +25,26 @@
       <option value="B4">B</option>
       <option value="C5">C&prime;</option>
      </select>
-    </div>
-    <div class="row">
+    </fieldset>
+    <fieldset>
      <label for="count">Number of Notes</label>
-     <input type="text" name="count" id="count" maxlength="3" size="2" value="10">
-     <label for="count"><span>(1&ndash;100)</span></label>
-    </div>
-    <div class="row">
+     <input type="number" name="count" id="count" min="1" max="100" value="12" required>
+     <small>(1&ndash;100)</small>
+    </fieldset>
+    <fieldset>
      <input type="submit" value="Let&rsquo;s Make Music!">
-    </div>
+    </fieldset>
    </form>
-
    <div id="result" class="hidden">
-    <div class="row">
     <canvas id="staff" width="0" height="0"></canvas>
-    </div>
-    <div class="row">
-      <a href="#" id="midi">Download</a>
-    </div>
-    <div class="row" id="vote">Was this melody good?
-     <a href="#" id="voteY" class="voteLink">Yes</a>
-     <a href="#" id="voteN" class="voteLink">No</a>
-    </div>
+    <p><a href="" id="download" title="Download MIDI file">Download</a> MIDI file</p>
+    <p id="vote">Was this a good melody?
+     <a href="" id="vote-yes" title="It&rsquo;s awesome!">Yes</a>
+     <a href="" id="vote-no" title="It blows!">No</a></p>
+    <p id="thanks" class="hidden">Thank&rsquo;s for voting!</p>
    </div>
-  </div>
+  </main>
+  <script src="/js/jquery-2.2.3.min.js"></script>
+  <script src="/js/script.js"></script>
  </body>
 </html>

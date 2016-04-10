@@ -1,7 +1,7 @@
 <?php
 namespace Boronczyk\MusicComposer;
 
-class MidiGenerator
+class MidiWriter
 {
     protected $noteValues = [
         'C3' => 0x32, 'C#3' => 0x33,
@@ -31,7 +31,7 @@ class MidiGenerator
     {
     }
 
-    public function generate($noteData)
+    public function write($noteData)
     {
         // MIDI type 1, 1 track, Time division 2032
         $header = 'MThd' . pack('Nn*', 6, 1, 1, 2032);

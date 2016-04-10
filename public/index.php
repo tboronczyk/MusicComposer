@@ -1,69 +1,60 @@
 <?php
-require '../vendor/autoload.php';
-use Boronczyk\MusicComposer\Composer;
-use Boronczyk\MusicComposer\MidiGenerator;
+require_once '../vendor/autoload.php';
+use Slim\App;
+use Slim\Container;
+use Slim\Views\Twig;
 
-$app = new \Slim\Slim([
-    'templates.path' => realpath('../templates')
-]);
-$app->view(new \Slim\Views\Twig());
-$app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
+$settings = require '../settings.php';
+error_reporting($settings['php.error_reporting']);
+ini_set('display_errors', $settings['php.display_errors']);
+date_default_timezone_set($settings['php.default_timezone']);
 
-$app->container->singleton('composer', function () {
-    $c = new Composer();
-    $file = '../data/training.json';
-    if (is_readable($file)) {
-        $c->fromJson(file_get_contents($file));
-    } else {
-        foreach (glob('../training/*.txt') as $f) {
-            $data = trim(file_get_contents($f));
-            $data = explode(' ', $data);
-            $c->train($data);
-        }
-        file_put_contents($file, $c->toJson());
-    }
-    return $c;
+$container = new Container(['settings' => $settings]);
+require_once '../container.php';
+
+$app = new App($container);
+$app->view = new Twig($container['settings']['path.templates']);
+
+$app->get('/', function ($req, $resp, $args) use ($app) {
+    return $app->view->render($resp, 'index.html', []);
 });
 
-$app->get('/', function () use ($app) {
-$app->container['composer'];
-    $app->render('index.html');
+$app->post('/', function ($req, $resp, $args) use ($app) {
+    $data = $req->getParsedBody();
+    $start = $data['start'];
+    $count = $data['count'];
+
+    $c = $app->getContainer();
+    $composer = $c['composer'];
+    $melody = $composer->compose($start, $count);
+
+    return $resp->withHeader('Content-Type', 'application/json')
+        ->write(json_encode(['melody' => $melody]));
 });
 
-$app->post('/', function () use ($app) {
-    $req = $app->request();
-    $start = $req->post('start');
-    $count = $req->post('count');
+$app->get('/midi/{data}', function ($req, $resp, $args) use ($app) {
+    $data = explode('.', $args['data']);
 
-    $c = $app->container['composer'];
-    $melody = $c->compose($start, $count);
+    $c = $app->getContainer();
+    $writer = $c['midiwriter'];
+    $midi = $writer->write($data);
 
-    $resp = $app->response();
-    $resp['Content-type'] = 'application/json';
-    $resp->body(json_encode(['melody' => $melody]));
+    return $resp->withHeader('Content-Type', 'application/x-mid')
+        ->withHeader('Content-Disposition', 'attachment; filename="melody.mid"')
+        ->write($midi);
 });
 
-$app->get('/midi/:data', function ($data) use ($app) {
-    $data = explode('.', $data);
+$app->post('/vote/{data}', function ($req, $resp, $args) use ($app) {
+    $data = $req->getParsedBody();
+    $vote = $data['vote'];
+    $data = explode('.', $args['data']);
 
-    $mg = new MidiGenerator;
-    $midi = $mg->generate($data);
+    $c = $app->getContainer();
+    $composer = $c['composer'];
 
-    $resp = $app->response();
-    $resp['Content-Type'] = 'application/x-midi';
-    $resp['Content-Disposition'] = 'attachment; filename="melody.mid"';
-    $resp->body($midi);
-});
-
-$app->post('/vote/:data', function ($data) use ($app) {
-    $req = $app->request();
-    $vote = $req->post('vote');
-    $data = explode('.', $data);
-
-    $c = $app->container['composer'];
     if ($vote == 'Y') {
-        $c->train($data);
-        file_put_contents('../data/training.json', $c->toJson());
+        $composer->tally($data);
+        file_put_contents($c['settings']['path.data'], $composer->toJson());
     }
 });
 
