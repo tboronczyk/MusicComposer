@@ -1,6 +1,5 @@
-function Staff (id) {
+function Staff (canvas) {
     "use strict";
-    var canvas = $(id).get(0);
 
     function clear(w, h) {
         canvas.width = w;
@@ -17,10 +16,11 @@ function Staff (id) {
     }
 
     this.drawMelody = function (melody) {
-        var i = 0;
         var width = 34;  // note images are 34x100
         var height = 100;
+
         var pos = 55;    // clef image is 55x100
+        var i = 0;
 
         clear(pos + width * melody.length, height);
 
@@ -33,13 +33,13 @@ function Staff (id) {
     };
 }
 
-jQuery(document).ready(function ($) {
+$(document).ready(function ($) {
     "use strict";
+
     var form = $("form");
-    var staff = new Staff("canvas");
+    var staff = new Staff($("canvas").get(0));
 
     var encoded = "";
-
     form.submit(function (e) {
         $.ajax({
             type: form.attr("method"),
