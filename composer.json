@@ -4,7 +4,12 @@
     "require": {
         "php": "^7.0",
         "slim/slim": "^3.0",
-        "slim/twig-view": "^2.0"
+        "slim/twig-view": "^2.0",
+        "robloach/component-installer": "^0.2.3",
+        "components/jquery": "^3.1"
+    },
+    "config": {
+        "component-dir": "public/js"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.8",
