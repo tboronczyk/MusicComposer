@@ -12,7 +12,7 @@
    <h1>Music Composer</h1>
   </header>
   <main>
-   <form id="myform" method="post" action="/">
+   <form method="post" action="/">
     <fieldset>
      <label for="start">Starting Note</label>
      <select name="start" id="start">
@@ -35,13 +35,13 @@
      <input type="submit" value="Let&rsquo;s Make Music!">
     </fieldset>
    </form>
-   <div id="result" class="hidden">
-    <canvas id="staff" width="0" height="0"></canvas>
+   <div id="result" aria-hidden="true">
+    <canvas width="0" height="0"></canvas>
     <p><a href="" id="download" title="Download MIDI file">Download</a> MIDI file</p>
     <p id="vote">Was this a good melody?
      <a href="" id="vote-yes" title="It&rsquo;s awesome!">Yes</a>
      <a href="" id="vote-no" title="It blows!">No</a></p>
-    <p id="thanks" class="hidden">Thank&rsquo;s for voting!</p>
+    <p id="thanks" aria-hidden="true">Thank&rsquo;s for voting!</p>
    </div>
   </main>
   <script src="/js/jquery-2.2.3.min.js"></script>

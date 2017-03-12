@@ -1,6 +1,6 @@
 <?php
-use Boronczyk\MusicComposer\Composer;
-use Boronczyk\MusicComposer\MidiWriter;
+use Zaemis\MusicComposer\Composer;
+use Zaemis\MusicComposer\MidiWriter;
 
 return (function () use ($container) {
     $container['composer'] = function ($c) {
@@ -11,8 +11,7 @@ return (function () use ($container) {
         } else {
             foreach (glob($c['settings']['path.training'] . '/*.txt') as $f) {
                 $pitches = file_get_contents($f);
-                $pitches = trim($pitches);
-                $pitches = explode(' ', $pitches);
+                $pitches = array_filter(preg_split('|[\s]+|', $pitches));
                 $composer->tally($pitches);
             }
             file_put_contents($c['settings']['path.data'], $composer->toJson());

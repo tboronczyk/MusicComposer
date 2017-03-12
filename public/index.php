@@ -1,4 +1,13 @@
 <?php
+if (PHP_SAPI == 'cli-server') {
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $path = realpath(__DIR__ . $path);
+    if ($path !== false && is_file($path) && strpos($path, __DIR__) === 0) {
+        return false;
+    }
+}
+
+chdir(__DIR__);
 require_once '../vendor/autoload.php';
 use Slim\App;
 use Slim\Container;
@@ -33,7 +42,7 @@ $app->post('/', function ($req, $resp, $args) use ($app) {
 });
 
 $app->get('/midi/{data}', function ($req, $resp, $args) use ($app) {
-    $data = explode('.', $args['data']);
+    $data = explode(',', $args['data']);
 
     $c = $app->getContainer();
     $writer = $c['midiwriter'];
@@ -47,7 +56,7 @@ $app->get('/midi/{data}', function ($req, $resp, $args) use ($app) {
 $app->post('/vote/{data}', function ($req, $resp, $args) use ($app) {
     $data = $req->getParsedBody();
     $vote = $data['vote'];
-    $data = explode('.', $args['data']);
+    $data = explode(',', $args['data']);
 
     $c = $app->getContainer();
     $composer = $c['composer'];

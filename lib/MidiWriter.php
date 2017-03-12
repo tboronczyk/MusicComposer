@@ -1,9 +1,11 @@
 <?php
-namespace Boronczyk\MusicComposer;
+declare(strict_types=1);
+
+namespace Zaemis\MusicComposer;
 
 class MidiWriter
 {
-    protected $noteValues = [
+    protected $pitchValues = [
         'C3' => 0x32, 'C#3' => 0x33,
         'D3' => 0x34, 'D#3' => 0x35,
         'E3' => 0x36,
@@ -31,7 +33,13 @@ class MidiWriter
     {
     }
 
-    public function write($noteData)
+    /**
+     * Return melody as MIDI content
+     *
+     * @param array $pitchData an array of pitches
+     * @return string MIDI content
+     */
+    public function write(array $pitchData)
     {
         // MIDI type 1, 1 track, Time division 2032
         $header = 'MThd' . pack('Nn*', 6, 1, 1, 2032);
@@ -51,19 +59,20 @@ class MidiWriter
             0x5B,
             0x00  // T:0, Controller Chan 0 Effects Depth 0
         );
-        foreach ($noteData as $note) {
+
+        foreach ($pitchData as $pitch) {
             $data .= pack(
                 'C*',
                 // T:0, Note On, Note X, velocity 62
                 0x00,
                 0x90,
-                $this->noteValues[$note],
+                $this->pitchValues[$pitch],
                 0x3E,
                 // T:254 (127|0x80 + 127), Note Off, Note X, velocity 62
                 0x8F,
                 0x7F,
                 0x80,
-                $this->noteValues[$note],
+                $this->pitchValues[$pitch],
                 0x3E
             );
         }

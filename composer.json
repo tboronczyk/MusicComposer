@@ -8,8 +8,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Boronczyk\\MusicComposer\\": [
-                "include/"
+            "Zaemis\\MusicComposer\\": [
+                "lib/"
             ]
         }
     }
