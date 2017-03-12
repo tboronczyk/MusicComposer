@@ -28,7 +28,7 @@ $settings = [
 
 $c = new Container(['settings' => $settings]);
 
-$c['composer'] = function ($c) {
+$c['Composer'] = function ($c) {
     $composer = new Composer;
     if (is_readable($c['settings']['path.data'])) {
         $pitches = file_get_contents($c['settings']['path.data']);
@@ -44,49 +44,48 @@ $c['composer'] = function ($c) {
     return $composer;
 };
 
-$c['midiwriter'] = function ($c) {
+$c['MidiWriter'] = function ($c) {
     return new MidiWriter;
 };
 
-$app = new App($c);
-$app->view = new Twig($c['settings']['path.templates']);
+$c['Twig'] = function ($c) {
+    return new Twig($c['settings']['path.templates']);
+};
 
-$app->get('/', function ($req, $resp, $args) use ($app) {
-    return $app->view->render($resp, 'index.html', []);
+$app = new App($c);
+
+$app->get('/', function ($req, $resp, $args) {
+    return $this->Twig->render($resp, 'index.html', []);
 });
 
-$app->post('/', function ($req, $resp, $args) use ($app) {
+$app->post('/', function ($req, $resp, $args) {
     $data = $req->getParsedBody();
     $start = $data['start'];
     $count = $data['count'];
 
-    $composer = $this->composer;
-    $melody = $composer->compose($start, $count);
+    $melody = $this->Composer->compose($start, $count);
 
     return $resp->withHeader('Content-Type', 'application/json')
         ->write(json_encode(['melody' => $melody]));
 });
 
-$app->get('/midi/{data}', function ($req, $resp, $args) use ($app) {
+$app->get('/midi/{data}', function ($req, $resp, $args) {
     $data = explode(',', $args['data']);
 
-    $writer = $this->midiwriter;
-    $midi = $writer->write($data);
+    $midi = $this->MidiWriter->write($data);
 
     return $resp->withHeader('Content-Type', 'application/x-mid')
         ->withHeader('Content-Disposition', 'attachment; filename="melody.mid"')
         ->write($midi);
 });
 
-$app->post('/vote/{data}', function ($req, $resp, $args) use ($app) {
+$app->post('/vote/{data}', function ($req, $resp, $args) {
     $data = $req->getParsedBody();
     $vote = $data['vote'];
     $data = explode(',', $args['data']);
 
-    $c = $app->getContainer();
-    $composer = $this->composer;
-
     if ($vote == 'Y') {
+        $composer = $this->Composer;
         $composer->tally($data);
         file_put_contents($this->settings['path.data'], $composer->toJson());
     }
