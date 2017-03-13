@@ -1,6 +1,5 @@
-function Staff (id) {
+function Staff (canvas) {
     "use strict";
-    var canvas = $(id).get(0);
 
     function clear(w, h) {
         canvas.width = w;
@@ -17,10 +16,11 @@ function Staff (id) {
     }
 
     this.drawMelody = function (melody) {
-        var i = 0;
         var width = 34;  // note images are 34x100
         var height = 100;
+
         var pos = 55;    // clef image is 55x100
+        var i = 0;
 
         clear(pos + width * melody.length, height);
 
@@ -33,39 +33,39 @@ function Staff (id) {
     };
 }
 
-jQuery(document).ready(function ($) {
+$(document).ready(function ($) {
     "use strict";
-    var myform = $("#myform");
-    var staff  = new Staff("#staff");
+
+    var form = $("form");
+    var staff = new Staff($("canvas").get(0));
 
     var encoded = "";
-
-    myform.submit(function (e) {
+    form.submit(function (e) {
         $.ajax({
-            type: myform.attr("method"),
-            url:  myform.attr("action"),
-            data: myform.serialize(),
+            type: form.attr("method"),
+            url: form.attr("action"),
+            data: form.serialize(),
             datType: "json"
         }).done(function (resp) {
-            $("#thanks").addClass("hidden");
-            $("#download, #result, #vote").removeClass("hidden");
+            $("#thanks").attr("aria-hidden", true);
+            $("#download, #result, #vote").attr("aria-hidden", false);
 
             staff.drawMelody(resp.melody);
 
-            encoded = encodeURIComponent(resp.melody.join("."));
+            encoded = encodeURIComponent(resp.melody.join(","));
             $("#download").attr("href", "/midi/" + encoded);
         });
         e.preventDefault();
     });
 
     $("#vote-yes, #vote-no").click(function (e) {
-        $("#vote").addClass("hidden");
-        $("#thanks").removeClass("hidden");
+        $("#vote").attr("aria-hidden", true);
+        $("#thanks").attr("aria-hidden", false);
 
         $.ajax({
             type: "post",
-            url:  "/vote/" + encoded,
-            data: { vote: ($(this).text() == "Yes") ? "Y" : "N" }
+            url: "/vote/" + encoded,
+            data: {vote: ($(this).text() == "Yes") ? "Y" : "N"}
         });
         e.preventDefault();
     });

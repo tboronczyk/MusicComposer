@@ -1,13 +1,13 @@
-@import url(/css/reset.css);
+@import url('/css/reset.css');
 
 body {
   color: #333;
-  font-family: Arial, Sans, sans-serif;
+  font-family: 'Arial', 'Sans', sans-serif;
   padding: 20px;
 }
 
 a {
-  color: #0277bd;
+  color: #0277BD;
   text-decoration: none;
 }
 
@@ -34,7 +34,7 @@ input[type=submit] {
   font-weight: bold;
 }
 
-.hidden {
+[aria-hidden=true] {
   display: none;
 }
 

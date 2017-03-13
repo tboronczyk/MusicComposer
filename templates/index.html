@@ -12,9 +12,9 @@
    <h1>Music Composer</h1>
   </header>
   <main>
-   <form id="myform" method="post" action="/">
+   <form method="post" action="/">
     <fieldset>
-     <label for="start">Starting Note</label>
+     <label for="start">Starting note</label>
      <select name="start" id="start">
       <option value="C4">C</option>
       <option value="D4">D</option>
@@ -27,24 +27,26 @@
      </select>
     </fieldset>
     <fieldset>
-     <label for="count">Number of Notes</label>
-     <input type="number" name="count" id="count" min="1" max="100" value="12" required>
+     <label for="count">Number of notes</label>
+     <input type="number" name="count" id="count" min="1" max="100" value="12"
+      required>
      <small>(1&ndash;100)</small>
     </fieldset>
     <fieldset>
-     <input type="submit" value="Let&rsquo;s Make Music!">
+     <input type="submit" value="Let&rsquo;s make some music!">
     </fieldset>
    </form>
-   <div id="result" class="hidden">
-    <canvas id="staff" width="0" height="0"></canvas>
-    <p><a href="" id="download" title="Download MIDI file">Download</a> MIDI file</p>
+   <div id="result" aria-hidden="true">
+    <canvas width="0" height="0"></canvas>
+    <p><a href="" id="download" title="Download MIDI file">Download</a> MIDI
+     file
     <p id="vote">Was this a good melody?
-     <a href="" id="vote-yes" title="It&rsquo;s awesome!">Yes</a>
-     <a href="" id="vote-no" title="It blows!">No</a></p>
-    <p id="thanks" class="hidden">Thank&rsquo;s for voting!</p>
+     <a href="" id="vote-yes" title="So melodious!">Yes</a>
+     <a href="" id="vote-no" title="Ow, my ears!">No</a>
+    <p id="thanks" aria-hidden="true">Thank&rsquo;s for voting!
    </div>
   </main>
-  <script src="/js/jquery-2.2.3.min.js"></script>
+  <script src="/js/jquery/jquery.min.js"></script>
   <script src="/js/script.js"></script>
  </body>
 </html>
