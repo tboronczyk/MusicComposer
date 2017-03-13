@@ -1,0 +1,8 @@
+language: php
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install --dev
+php:
+  - 7.0
+script: 
+  - vendor/bin/phing test
