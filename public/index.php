@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 if (PHP_SAPI == 'cli-server') {
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $path = realpath(__DIR__ . $path);
@@ -12,6 +14,8 @@ require_once '../vendor/autoload.php';
 
 use Slim\App;
 use Slim\Container;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\Views\Twig;
 use Zaemis\MusicComposer\Composer;
 use Zaemis\MusicComposer\MidiWriter;
@@ -54,39 +58,39 @@ $c['Twig'] = function ($c) {
 
 $app = new App($c);
 
-$app->get('/', function ($req, $resp, $args) {
+$app->get('/', function (Request $req, Response $resp, array $args) {
     return $this->Twig->render($resp, 'index.html', []);
 });
 
-$app->post('/', function ($req, $resp, $args) {
+$app->post('/', function (Request $req, Response $resp, array $args) {
     $data = $req->getParsedBody();
-    $start = $data['start'];
-    $count = $data['count'];
+    settype($data['count'], 'int');
+    $melody = $this->Composer->compose($data['start'], $data['count']);
 
-    $melody = $this->Composer->compose($start, $count);
-
-    return $resp->withHeader('Content-Type', 'application/json')
+    return $resp
+        ->withHeader('Content-Type', 'application/json')
         ->write(json_encode(['melody' => $melody]));
 });
 
-$app->get('/midi/{data}', function ($req, $resp, $args) {
-    $data = explode(',', $args['data']);
+$app->get('/midi/{melody}', function (Request $req, Response $resp, array $args) {
+    $melody = explode(',', $args['melody']);
+    $midi = $this->MidiWriter->write($melody);
 
-    $midi = $this->MidiWriter->write($data);
-
-    return $resp->withHeader('Content-Type', 'application/x-mid')
+    return $resp
+        ->withHeader('Content-Type', 'application/x-mid')
         ->withHeader('Content-Disposition', 'attachment; filename="melody.mid"')
         ->write($midi);
 });
 
-$app->post('/vote/{data}', function ($req, $resp, $args) {
+$app->post('/vote/{melody}', function (Request $req, Response $resp, array $args) {
     $data = $req->getParsedBody();
-    $vote = $data['vote'];
-    $data = explode(',', $args['data']);
 
-    if ($vote == 'Y') {
+    if ($data['vote'] == 'Y') {
+        $melody = explode(',', $args['melody']);
+
         $composer = $this->Composer;
-        $composer->tally($data);
+        $composer->tally($melody);
+
         file_put_contents($this->settings['path.data'], $composer->toJson());
     }
 });
