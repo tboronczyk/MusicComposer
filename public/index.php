@@ -9,9 +9,6 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
-chdir(__DIR__);
-require_once '../vendor/autoload.php';
-
 use Slim\App;
 use Slim\Container;
 use Slim\Http\Request;
@@ -19,6 +16,9 @@ use Slim\Http\Response;
 use Slim\Views\Twig;
 use Zaemis\MusicComposer\Composer;
 use Zaemis\MusicComposer\MidiWriter;
+
+chdir(__DIR__);
+require_once '../vendor/autoload.php';
 
 $settings = [
     // framework settings

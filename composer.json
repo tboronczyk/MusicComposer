@@ -13,7 +13,8 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.8",
-        "phing/phing": "^2.16"
+        "phing/phing": "^2.16",
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {

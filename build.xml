@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="MusicComposer" default="build">
 
- <property name="binDir" value="${phing.dir}/vendor/bin" />
+ <property name="binDir" value="${phing.dir}/vendor/bin"/>
 
  <target name="lint">
-  <echo msg="Lint PHP source files" />
+  <echo msg="Lint PHP source files"/>
 <!-- exec used because PhpCodeSnifferTask doesn't expose desired functionality -->
   <exec checkreturn="true" passthru="true"
    command="'${binDir}/phpcs' --standard=PSR2 --exclude=PSR1.Files.SideEffects
-    --ignore=vendor **/*.php" />
+    --ignore=vendor **/*.php"/>
  </target>
 
- <target name="build">
-  <echo msg="No action required" />
+ <target name="build" depends="lint">
+  <echo msg="No action required for build"/>
  </target>
 
  <target name="clean">
-  <echo msg="No action required" />
+  <echo msg="No action required for clean"/>
+ </target>
+
+ <target name="test" depends="build">
+  <echo msg="Execute unit tests"/>
+  <exec checkreturn="true" passthru="true" command="'${binDir}/phpunit' tests"/>
  </target>
 
 </project>
