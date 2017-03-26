@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<phpunit>
+ <testsuites>
+  <testsuite name="Unit tests">
+   <directory>tests</directory>
+  </testsuite>
+ </testsuites>
+ <filter>
+  <whitelist>
+   <directory>lib</directory>
+  </whitelist>
+ </filter>
+</phpunit>

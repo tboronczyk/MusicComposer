@@ -21,7 +21,7 @@
 
  <target name="test" depends="build">
   <echo msg="Execute unit tests"/>
-  <exec checkreturn="true" passthru="true" command="'${binDir}/phpunit' tests"/>
+  <exec checkreturn="true" passthru="true" command="'${binDir}/phpunit' --coverage-clover=coverage.xml tests"/>
  </target>
 
 </project>
